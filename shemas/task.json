@@ -1,0 +1,23 @@
+{
+    "action_item_name": "Faire la vaisselle",
+    "created_at": "2015-07-10 16:13:27",
+    "due_for": "2015-07-10 16:13:27",
+    "action_item_context": "On a plus de couverts propres !",
+    "sender": {
+        "id": "hash1",
+        "name": "John Doe",
+        "email": "john@doe.me"
+    },
+    "assignees_names": "John Doe, Jane Doe, ect..",
+    "assignees": [{
+            "id": "hash1",
+            "name": "John Doe",
+            "email": "john@doe.me"
+        },
+        {
+            "id": "hash2",
+            "name": "Jane Doe",
+            "email": "john@doe.me"
+        }
+    ]
+}
