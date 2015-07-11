@@ -19,5 +19,7 @@
             "name": "Jane Doe",
             "email": "john@doe.me"
         }
-    ]
+    ],
+    "meeting_url": "https://solid.wisembly.com/meetings/U86dT6d",
+    "due_meeting_url": "https://solid.wisembly.com/meetings/MH6d32f"
 }

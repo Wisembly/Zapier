@@ -5,26 +5,18 @@ var Zap = {
             task = data.task,
             users = {},
             notes = {},
-            assignees = [];
-
-        // find due meeting if there is one
-        var due_meeting = null;
-        if (null !== task.due_meeting) {
-            for (i = 0; i < data.meetings.length; i++) {
-                if (data.meetings[i].id === task.due_meeting) {
-                    due_meeting = data.meetings[i];
-                    break;
-                }
-            }
-        }
+            meetings = {},
+            assignees = [],
+            meeting_url = 'https://solid.wisembly.com/meetings/{hash}';
 
         // transform user array to user mapped object
         for (i = 0; i < data.users.length; i++) {
-            users[data.users[i].id] = {
-                id: data.users[i].id,
-                name: data.users[i].name,
-                email: data.users[i].email
-            };
+            users[data.users[i].id] = _.pick(data.users[i], 'id', 'name', 'email');
+        }
+
+        // same for meetings
+        for (i = 0; i < data.meetings.length; i++) {
+            meetings[data.meetings[i].id] = data.meetings[i];
         }
 
         // same for notes
@@ -37,19 +29,17 @@ var Zap = {
             assignees.push(users[task.assignees[i]]);
         }
 
-        // see shemas/task.json
+        // see schemas/task.json
         return {
             action_item_name: task.title,
             created_at: task.created_at,
-            due_for: null !== due_meeting ? due_meeting.expected_start : task.due_date,
+            due_for: null !== task.due_meeting ? meetings[task.due_meeting].expected_start : task.due_date,
             action_item_context: notes[task.note].title,
-            sender: {
-                id: data.sender.id,
-                name: data.sender.name,
-                email: data.sender.email
-            },
+            sender: _.pick(data.sender, 'id', 'name', 'email'),
             assignees: assignees,
-            assignees_names: _.pluck(assignees, 'name').join(', ')
+            assignees_names: _.pluck(assignees, 'name').join(', '),
+            meeting_url: meeting_url.replace('{hash}', meetings[task.meeting].id),
+            due_meeting_url: task.due_meeting ? meeting_url.replace('{hash}', meetings[task.due_meeting].id) : null
         };
     }
 };
