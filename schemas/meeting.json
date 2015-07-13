@@ -1,0 +1,55 @@
+{
+    "name": "A demonstration meeting with Solid",
+    "description": "The purpose of this meeting is to show you how to run a productive and actionable meeting, with a little help from Solid.",
+    "expected_start": "2015-07-10T09:24:12+00:00",
+    "expected_end": "2015-07-10T09:54:12+00:00",
+    "real_start": "2015-07-10T09:24:20+00:00",
+    "real_end": "2015-07-10T09:50:12+00:00",
+    "preparation": "good",
+    "is_recurring": false,
+    "owner": {
+        "name": "John Doe",
+        "email": "john@doe.me"
+    },
+    "sender": {
+        "id": "hash1",
+        "name": "John Doe",
+        "email": "john@doe.me"
+    },
+    "participants": [{
+            "name": "John Doe",
+            "email": "john@doe.me"
+        },
+        {
+            "name": "Jane Doe",
+            "email": "john@doe.me"
+        }
+    ],
+    "agenda": [{
+        "title" : "Set the goal of the meeting",
+        "created_at" : "2015-07-10T09:29:12+00:00",
+        "notes" : [{
+                "title": "Create a new agenda item and add notes. Write down what you think Solid is for.",
+                "created_at": "2015-07-10T09:29:12+00:00"
+            },
+            {
+                "title": "This meeting is planned to last 30 minutes. The timer started automatically and displays the remaining time before the meeting is over.",
+                "created_at": "2015-07-10T09:29:12+00:00"
+            }
+        ]
+    },
+    {
+        "title" : "Set the agenda and take notes",
+        "created_at" : "2015-07-10T09:29:12+00:00",
+        "notes" : [{
+                "title": "The agenda lists all the topics of discussion for the meeting. Each one can contain notes like this one. Notes can also be tasks, decisions and open issues.",
+                "created_at": "2015-07-10T09:29:12+00:00"
+            },
+            {
+                "title": "Create a new agenda item and add notes. Write down what you think Solid is for.",
+                "created_at": "2015-07-10T09:29:12+00:00"
+            }
+        ]
+    }],
+    "meeting_url": "https://solid.wisembly.com/meetings/U86dT6d"
+}
