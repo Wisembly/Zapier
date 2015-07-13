@@ -1,7 +1,9 @@
 var Zap = {
-    action_item_catch_hook: function(bundle) {
+    header_event_key: 'Http-X-Wisembly-Event',
+
+    action_item_catch_hook: function (bundle) {
         var data = bundle.cleaned_request,
-            headers = bundle.headers,
+            headers = bundle.request.headers,
             assignees = [],
             task = data.task,
             users = _.object(_.pluck(data.users, 'id'), data.users),
@@ -11,7 +13,7 @@ var Zap = {
             meeting_url = 'https://solid.wisembly.com/meetings/{hash}';
 
         // work only for task events
-        if (headers['x-wisembly-event'] && !headers['x-wisembly-event'].match(/task./)) {
+        if (headers[this.header_event_key] && !headers[this.header_event_key].match(/task./)) {
             return [];
         }
 
@@ -35,8 +37,14 @@ var Zap = {
             meeting_url: meeting_url.replace('{hash}', current_meeting.id),
             due_meeting_url: task.due_meeting ? meeting_url.replace('{hash}', meetings[task.due_meeting].id) : null
         };
+    },
+
+    meeting_catch_hook: function (bundle) {
+
     }
 };
 
 // small addition not to cc/paste into Zapier editor. only needed for tests
-module.exports = Zap;
+if (module) {
+    module.exports = Zap;
+}
