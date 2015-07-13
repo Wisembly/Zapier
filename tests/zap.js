@@ -83,7 +83,7 @@ describe('Test Zap code', function () {
         var data = require('../hooks/meeting.json');
 
         it('should have a valid schema', function () {
-            var result = Zap.meeting_catch_hook({ cleaned_request: data, request: { headers: [] } });
+            var result = Zap.meeting_stopped_catch_hook({ cleaned_request: data, request: { headers: [] } });
             expects(verifySchema(require('../schemas/meeting.json'), result)).to.be(true);
         });
 
@@ -91,15 +91,15 @@ describe('Test Zap code', function () {
             var request = { headers: [] };
 
             request.headers[Zap.header_event_key] = "task.create";
-            expects(Zap.meeting_catch_hook({ cleaned_request: {}, request: request }).length).to.be(0);
+            expects(Zap.meeting_stopped_catch_hook({ cleaned_request: {}, request: request }).length).to.be(0);
             request.headers[Zap.header_event_key] = "meeting.start";
-            expects(Zap.meeting_catch_hook({ cleaned_request: data, request: request })).to.be.an('object');
+            expects(Zap.meeting_stopped_catch_hook({ cleaned_request: data, request: request })).to.be.an('object');
             request.headers[Zap.header_event_key] = "meeting.stop";
-            expects(Zap.meeting_catch_hook({ cleaned_request: data, request: request })).to.be.an('object');
+            expects(Zap.meeting_stopped_catch_hook({ cleaned_request: data, request: request })).to.be.an('object');
         });
 
         it('should handle agenda object', function () {
-            var result = Zap.meeting_catch_hook({ cleaned_request: data, request: { headers: [] } });
+            var result = Zap.meeting_stopped_catch_hook({ cleaned_request: data, request: { headers: [] } });
 
             expects(result.agenda.length).to.be(4);
             expects(result.agenda[0].title).to.be('Set the goal of the meeting');
@@ -110,8 +110,14 @@ describe('Test Zap code', function () {
         });
 
         it('should handle agenda_html version', function () {
-            var result = Zap.meeting_catch_hook({ cleaned_request: data, request: { headers: [] } });
+            var result = Zap.meeting_stopped_catch_hook({ cleaned_request: data, request: { headers: [] } });
             expects(result.agenda_html).to.be("<ul><li><ul><li>Set the goal of the meeting</li><li><ul><li>The goal of this demonstration meeting has been set by Solid earlier. It describes what needs to happen as a result of the meeting.</li><li>Try to edit it.</li><li>Ceci est ma note</li><li>Une nouvelle note</li><li>Ma superbe note</li><li>Grosse grosse note</li></ul></li></ul></li><li><ul><li>Set the agenda and take notes</li><li><ul><li>The agenda lists all the topics of discussion for the meeting. Each one can contain notes like this one. Notes can also be tasks, decisions and open issues.</li><li>Create a new agenda item and add notes. Write down what you think Solid is for.</li></ul></li></ul></li><li><ul><li>Keep an eye on the clock and end the meeting on time</li><li><ul><li>This meeting is planned to last 30 minutes. The timer started automatically and displays the remaining time before the meeting is over.</li><li>Try to reset the timer if you want to start the meeting over.</li><li>Once you feel like the demonstration is over, end the meeting.</li></ul></li></ul></li><li><ul><li>Wrap it up and share the summary</li><li><ul><li>The key to successful meetings is to make sure that every one of the meeting's participants gets away with an actionable summary of the meeting.</li><li>Once you've ended the meeting, share the summary.</li><li>This is how Solid can be used every time to run your meetings.</li></ul></li></ul></li></ul>");
+        });
+
+        it('should have a shared started and stoped meeting hook', function () {
+            var result1 = Zap.meeting_stopped_catch_hook({ cleaned_request: data, request: { headers: [] } });
+            var result2 = Zap.meeting_started_catch_hook({ cleaned_request: data, request: { headers: [] } });
+            expects(result1).to.eql(result2);
         });
     });
 });

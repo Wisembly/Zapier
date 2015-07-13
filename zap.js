@@ -36,7 +36,11 @@ var Zap = {
         };
     },
 
-    meeting_catch_hook: function (bundle) {
+    meeting_started_catch_hook: function (bundle) {
+        return this.meeting_stopped_catch_hook(bundle);
+    },
+
+    meeting_stopped_catch_hook: function (bundle) {
 
         // works only for meeting events
         if (bundle.request.headers[this.header_event_key]
