@@ -62,6 +62,24 @@ var Zap = {
             return agenda;
         });
 
+        // create a html version of the agenda
+        // @TODO: maybe change html markup, and certainly code it better :(
+        var agenda_html = '<ul>';
+        for (var i = 0; i < agenda.length; i++) {
+            agenda_html += '<li><ul><li>' + agenda[i].title + '</li>';
+
+            if (0 !== agenda[i].notes.length) {
+                agenda_html += '<li><ul>';
+                for (var j = 0; j < agenda[i].notes.length; j++) {
+                    agenda_html += '<li>' + agenda[i].notes[j].title + '</li>';
+                }
+                agenda_html += '</ul></li>';
+            }
+
+            agenda_html += '</ul></li>';
+        }
+        agenda_html += '</ul>';
+
         // see schemas/meeting.json
         return {
             name: meeting.name,
@@ -76,6 +94,7 @@ var Zap = {
             sender: this._getUser(data.sender),
             participants: participants,
             agenda: agenda,
+            agenda_html: agenda_html,
             meeting_url: meeting_url.replace('{hash}', meeting.id)
         };
     },
