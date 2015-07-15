@@ -2,7 +2,7 @@
     "action_item_name": "My task to do very soon",
     "created_at": "2016-07-10 16:13:27",
     "due_for": "2017-07-10 16:13:27",
-    "action_item_context": "This sentence induced this awesome task",
+    "action_item_context": "This note induced the task, it gives context",
     "sender": {
         "name": "John Doe",
         "email": "john@doe.me"
@@ -17,6 +17,8 @@
             "email": "john@doe.me"
         }
     ],
+    "meeting_name": "Meeting where the task has been created name",
+    "due_meeting_name": "Meeting where the task has bee assigned name",
     "meeting_url": "https://solid.wisembly.com/meetings/U86dT6d",
     "due_meeting_url": "https://solid.wisembly.com/meetings/MH6d32f"
 }
