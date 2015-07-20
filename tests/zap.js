@@ -35,7 +35,7 @@ describe('Test Zap code', function () {
         var data = require('../hooks/task.json');
 
         it('should have a valid schema', function () {
-            var result = Zap.action_item_catch_hook({ cleaned_request: data, request: { headers: [] } });
+            var result = Zap.new_action_item_catch_hook({ cleaned_request: data, request: { headers: [] } });
             expects(verifySchema(require('../schemas/task.json'), result)).to.be(true);
         });
 
@@ -43,15 +43,15 @@ describe('Test Zap code', function () {
             var request = { headers: [] };
 
             request.headers[Zap.header_event_key] = "foo";
-            expects(Zap.action_item_catch_hook({ cleaned_request: {}, request: request }).length).to.be(0);
+            expects(Zap.new_action_item_catch_hook({ cleaned_request: {}, request: request }).length).to.be(0);
             request.headers[Zap.header_event_key] = "task.create";
-            expects(Zap.action_item_catch_hook({ cleaned_request: data, request: request })).to.be.an('object');
+            expects(Zap.new_action_item_catch_hook({ cleaned_request: data, request: request })).to.be.an('object');
             request.headers[Zap.header_event_key] = "task.edit";
-            expects(Zap.action_item_catch_hook({ cleaned_request: data, request: request })).to.be.an('object');
+            expects(Zap.new_action_item_catch_hook({ cleaned_request: data, request: request })).to.be.an('object');
         });
 
         it('should transform hook sent data into something usable in Zapier', function () {
-            var result = Zap.action_item_catch_hook({ cleaned_request: data, request: { headers: [] } });
+            var result = Zap.new_action_item_catch_hook({ cleaned_request: data, request: { headers: [] } });
             expects(result).to.be.an('object');
             expects(result.action_item_name).to.be('A delightful task to do');
             expects(result.created_at).to.be('2015-07-10T16:53:03+00:00');
@@ -65,16 +65,16 @@ describe('Test Zap code', function () {
         });
 
         it('should handle due_for', function () {
-            var result = Zap.action_item_catch_hook({ cleaned_request: data, request: { headers: [] } });
+            var result = Zap.new_action_item_catch_hook({ cleaned_request: data, request: { headers: [] } });
             expects(result.due_for).to.be('2015-07-13T17:00:00+00:00');
             data.task.due_date = '2020-07-13T17:00:00+00:00'
             data.task.due_meeting = null;
-            result = Zap.action_item_catch_hook({ cleaned_request: data, request: { headers: [] } });
+            result = Zap.new_action_item_catch_hook({ cleaned_request: data, request: { headers: [] } });
             expects(result.due_for).to.be(data.task.due_date);
         });
 
         it('should transform users', function () {
-            var result = Zap.action_item_catch_hook({ cleaned_request: data, request: { headers: [] } });
+            var result = Zap.new_action_item_catch_hook({ cleaned_request: data, request: { headers: [] } });
             expects(result.sender).to.eql({ name: "Guillaume Potier", email: "guillaume@wisembly.com" })
         });
     });

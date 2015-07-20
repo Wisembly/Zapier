@@ -2,7 +2,48 @@ var Zap = {
     header_event_key: 'Http-X-Wisembly-Event',
     application_base_url: 'https://solid.wisembly.com',
 
-    action_item_catch_hook: function (bundle) {
+    /*********************************
+    * Auth & subscribe Hooks
+    *********************************/
+
+    pre_subscribe: function (bundle) {
+        bundle.request.method = 'POST';
+        bundle.request.data = JSON.stringify({
+            webhook: {
+                content_type: 'application/json',
+                endpoint: bundle.subscription_url,
+                events: [bundle.event]
+            }
+        });
+
+        return bundle.request;
+    },
+
+    post_subscribe: function (bundle) {
+        // must return a json serializable object for use in pre_unsubscribe
+        data = JSON.parse(bundle.response.content);
+
+        // we need this in order to build the {{webhook_id}}
+        // in the rest hook unsubscribe url
+        return { webhook_id: data.webhook.id };
+    },
+
+    pre_unsubscribe: function (bundle) {
+        bundle.request.method = 'DELETE';
+        bundle.request.data = null;
+
+        return bundle.request;
+    },
+
+    /*********************************
+    * Task Hooks
+    *********************************/
+
+    new_action_item_assigned_catch_hook: function (bundle) {
+        return this.new_action_item_catch_hook(bundle);
+    },
+
+    new_action_item_catch_hook: function (bundle) {
 
         // works only for task events
         if (bundle.request.headers[this.header_event_key] &&
@@ -39,6 +80,10 @@ var Zap = {
             due_meeting_url: task.due_meeting ? meeting_url.replace('{hash}', meetings[task.due_meeting].id) : null
         };
     },
+
+    /*********************************
+    * Meeting Hooks
+    *********************************/
 
     meeting_started_catch_hook: function (bundle) {
         return this.meeting_stopped_catch_hook(bundle);
