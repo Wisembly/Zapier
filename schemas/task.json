@@ -1,20 +1,21 @@
 {
     "action_item_name": "My task to do very soon",
     "created_at": "2016-07-10 16:13:27",
-    "due_for": "2017-07-10 16:13:27",
+    "due_on": "2017-07-10 16:13:27",
     "action_item_context": "This note induced the task, it gives context",
     "sender": {
         "name": "John Doe",
         "email": "john@doe.me"
     },
-    "assignees_names": "John Doe, Jane Doe, ect..",
+    "assignees_names": "John Doe, Jane Doe",
+    "assignees_emails": "john@doe.me, jane@doe.me",
     "assignees": [{
             "name": "John Doe",
             "email": "john@doe.me"
         },
         {
             "name": "Jane Doe",
-            "email": "john@doe.me"
+            "email": "jane@doe.me"
         }
     ],
     "meeting_name": "Meeting where the task has been created name",

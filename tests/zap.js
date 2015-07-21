@@ -66,7 +66,7 @@ describe('Test Zap code', function () {
             expects(result).to.be.an('object');
             expects(result.action_item_name).to.be('A delightful task to do');
             expects(result.created_at).to.be('2015-07-10T16:53:03+00:00');
-            expects(result.due_for).to.be('2015-07-13T17:00:00+00:00');
+            expects(result.due_on).to.be('2015-07-13T17:00:00+00:00');
             expects(result.action_item_context).to.be('Grosse grosse note');
             expects(result.sender.name).to.be('Guillaume Potier');
             expects(result.assignees_names).to.be('Guillaume Potier, Romain David, Andreï Vestemeanu');
@@ -75,13 +75,13 @@ describe('Test Zap code', function () {
             expects(result.assignees[0]).to.eql({ name: "Guillaume Potier", email: "guillaume@wisembly.com" });
         });
 
-        it('should handle due_for', function () {
+        it('should handle due_on', function () {
             var result = Zap.new_action_item_catch_hook({ cleaned_request: data, request: { headers: [] } });
-            expects(result.due_for).to.be('2015-07-13T17:00:00+00:00');
+            expects(result.due_on).to.be('2015-07-13T17:00:00+00:00');
             data.task.due_date = '2020-07-13T17:00:00+00:00'
             data.task.due_meeting = null;
             result = Zap.new_action_item_catch_hook({ cleaned_request: data, request: { headers: [] } });
-            expects(result.due_for).to.be(data.task.due_date);
+            expects(result.due_on).to.be(data.task.due_date);
         });
 
         it('should transform users', function () {
