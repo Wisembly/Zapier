@@ -47,7 +47,15 @@ describe('Test Zap code', function () {
 
         it('should have a valid schema', function () {
             var result = Zap.new_action_item_catch_hook({ cleaned_request: data, request: { headers: [] } });
-            expects(verifySchema(require('../schemas/task.json'), result)).to.be(true);
+            expects(verifySchema(require('../schema/task.json'), result)).to.be(true);
+        });
+
+        it('should have a valid tasks schema', function () {
+            var schema = require('../schema/task.json');
+            var tasks = require('../schema/tasks.json');
+
+            expects(verifySchema(schema, tasks[0])).to.be(true);
+            expects(verifySchema(schema, tasks[1])).to.be(true);
         });
 
         it('should only work for task hooks', function () {
@@ -101,7 +109,7 @@ describe('Test Zap code', function () {
 
         it('should have a valid schema', function () {
             var result = Zap.meeting_stopped_catch_hook({ cleaned_request: data, request: { headers: [] } });
-            expects(verifySchema(require('../schemas/meeting.json'), result)).to.be(true);
+            expects(verifySchema(require('../schema/meeting.json'), result)).to.be(true);
         });
 
         it('should only work for meeting hooks', function () {
