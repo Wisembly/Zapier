@@ -112,6 +112,13 @@ describe('Test Zap code', function () {
             expects(verifySchema(require('../schema/meeting.json'), result)).to.be(true);
         });
 
+        it('should have a valid meetings schema', function () {
+            var schema = require('../schema/meeting.json');
+            var meetings = require('../schema/meetings.json');
+
+            expects(verifySchema(schema, meetings[0])).to.be(true);
+        });
+
         it('should only work for meeting hooks', function () {
             var request = { headers: [] };
 
