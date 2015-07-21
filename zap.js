@@ -12,7 +12,7 @@ var Zap = {
             webhook: {
                 content_type: 'application/json',
                 endpoint: bundle.subscription_url,
-                events: [bundle.event]
+                actions: [bundle.event]
             }
         });
 

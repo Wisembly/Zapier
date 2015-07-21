@@ -3,17 +3,6 @@ var Zap = require('../zap.js'),
     expects = require('expect.js'),
     underscore = _ = require('underscore');
 
-// verify that an object implement at least all 1rst level shema properties
-var verifySchema = function (schema, object) {
-    for (var method in schema) {
-        if (!_.has(object, method)) {
-            return { error: 'Method "%s" is not implemented by object'.replace('%s', method) };
-        }
-    }
-
-    return true;
-};
-
 describe('Test Zap code', function () {
     describe('Misc', function () {
         it('should be an object', function () {
@@ -29,6 +18,28 @@ describe('Test Zap code', function () {
                 other: "other"
             })).to.eql({ name: "Name", email: "email@host.ext" });
         });
+    });
+
+    describe('Subscribe hooks', function () {
+        it('should have a pre_subscribe method', function () {
+            var response = Zap.pre_subscribe({ subscription_url: 'endpoint', event: 'task.assign', request: {} });
+            expects(response.method).to.be('POST');
+            expects(JSON.parse(response.data).webhook.content_type).to.be('application/json');
+            expects(JSON.parse(response.data).webhook.endpoint).to.be('endpoint');
+            expects(JSON.parse(response.data).webhook.actions[0]).to.be('task.assign');
+        });
+
+        it('should have a post_subscribe method', function () {
+            var response = Zap.post_subscribe({ response: { content: JSON.stringify({ webhook: { id: 42 } }) } });
+            expects(response.webhook_id).to.be(42);
+        });
+
+        it('should have a pre_unsubscribe method', function () {
+            var response = Zap.pre_unsubscribe({ request: {} });
+            expects(response.method).to.be('DELETE');
+            expects(response.data).to.be(null);
+        });
+
     });
 
     describe('Action Items', function () {
@@ -77,6 +88,12 @@ describe('Test Zap code', function () {
             var result = Zap.new_action_item_catch_hook({ cleaned_request: data, request: { headers: [] } });
             expects(result.sender).to.eql({ name: "Guillaume Potier", email: "guillaume@wisembly.com" })
         });
+
+        it('should have a shared created and assign meeting hook', function () {
+            var result1 = Zap.new_action_item_catch_hook({ cleaned_request: data, request: { headers: [] } });
+            var result2 = Zap.new_action_item_assigned_catch_hook({ cleaned_request: data, request: { headers: [] } });
+            expects(result1).to.eql(result2);
+        });
     });
 
     describe('Meetings', function () {
@@ -121,3 +138,14 @@ describe('Test Zap code', function () {
         });
     });
 });
+
+// verify that an object implement at least all 1rst level shema properties
+var verifySchema = function (schema, object) {
+    for (var method in schema) {
+        if (!_.has(object, method)) {
+            return { error: 'Method "%s" is not implemented by object'.replace('%s', method) };
+        }
+    }
+
+    return true;
+};
