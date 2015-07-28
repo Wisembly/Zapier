@@ -10,11 +10,6 @@
         },
         "assignees_names": "John Doe",
         "assignees_emails": "john@doe.me",
-        "assignees": [{
-                "name": "John Doe",
-                "email": "john@doe.me"
-            }
-        ],
         "meeting_name": "Meeting name where the task has been created",
         "due_meeting_name": "Meeting name where the task has bee assigned",
         "meeting_url": "https://solid.wisembly.com/meetings/U86dT6d",
@@ -32,15 +27,6 @@
         },
         "assignees_names": "John Doe, Jane Doe",
         "assignees_emails": "john@doe.me, jane@doe.me",
-        "assignees": [{
-                "name": "John Doe",
-                "email": "john@doe.me"
-            },
-            {
-                "name": "Jane Doe",
-                "email": "jane@doe.me"
-            }
-        ],
         "meeting_name": "Meeting name where the task has been created",
         "due_meeting_name": null,
         "meeting_url": "https://solid.wisembly.com/meetings/U86dT6d",

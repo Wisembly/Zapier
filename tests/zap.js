@@ -80,7 +80,6 @@ describe('Test Zap code', function () {
             expects(result.assignees_names).to.be('Guillaume Potier, Romain David, Andreï Vestemeanu');
             expects(result.meeting_url).to.be('https://solid.wisembly.com/meetings/Fe29206');
             expects(result.due_meeting_url).to.be('https://solid.wisembly.com/meetings/y4821f2');
-            expects(result.assignees[0]).to.eql({ name: "Guillaume Potier", email: "guillaume@wisembly.com" });
         });
 
         it('should handle due_on', function () {

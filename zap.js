@@ -72,7 +72,6 @@ var Zap = {
             due_on: null !== task.due_meeting ? meetings[task.due_meeting].expected_start : task.due_date,
             action_item_context: notes[task.note].title,
             sender: this._getUser(data.sender),
-            assignees: assignees,
             assignees_names: _.pluck(assignees, 'name').join(', '),
             assignees_emails: _.pluck(assignees, 'email').join(', '),
             meeting_name: null !== current_meeting ? current_meeting.name: null,
