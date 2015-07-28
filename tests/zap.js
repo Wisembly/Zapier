@@ -130,15 +130,9 @@ describe('Test Zap code', function () {
             expects(Zap.meeting_stopped_catch_hook({ cleaned_request: data, request: request })).to.be.an('object');
         });
 
-        it('should handle agenda object', function () {
+        it('should handle agenda_markdown version', function () {
             var result = Zap.meeting_stopped_catch_hook({ cleaned_request: data, request: { headers: [] } });
-
-            expects(result.agenda.length).to.be(4);
-            expects(result.agenda[0].title).to.be('Set the goal of the meeting');
-            expects(result.agenda[0].created_at).to.be('2015-07-10T09:29:12+00:00');
-            expects(result.agenda[0].notes.length).to.be(6);
-            expects(result.agenda[0].notes[0].title).to.be('The goal of this demonstration meeting has been set by Solid earlier. It describes what needs to happen as a result of the meeting.');
-            expects(result.agenda[0].notes[0].created_at).to.be('2015-07-10T09:29:12+00:00');
+            expects(result.agenda_markdown).to.be("## Set the goal of the meeting\n  - The goal of this demonstration meeting has been set by Solid earlier. It describes what needs to happen as a result of the meeting.\n  - Try to edit it.\n  - Ceci est ma note\n  - Une nouvelle note\n  - Ma superbe note\n  - Grosse grosse note\n## Set the agenda and take notes\n  - The agenda lists all the topics of discussion for the meeting. Each one can contain notes like this one. Notes can also be tasks, decisions and open issues.\n  - Create a new agenda item and add notes. Write down what you think Solid is for.\n## Keep an eye on the clock and end the meeting on time\n  - This meeting is planned to last 30 minutes. The timer started automatically and displays the remaining time before the meeting is over.\n  - Try to reset the timer if you want to start the meeting over.\n  - Once you feel like the demonstration is over, end the meeting.\n## Wrap it up and share the summary\n  - The key to successful meetings is to make sure that every one of the meeting\'s participants gets away with an actionable summary of the meeting.\n  - Once you\'ve ended the meeting, share the summary.\n  - This is how Solid can be used every time to run your meetings.\n");
         });
 
         it('should handle agenda_html version', function () {

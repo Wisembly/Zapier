@@ -115,16 +115,19 @@ var Zap = {
             return agenda;
         });
 
-        // create a html version of the agenda
+        // create a html & markdown version of the agenda
         // @TODO: maybe change html markup, and certainly code it better :(
         var agenda_html = '<ul>';
+        var agenda_markdown = '';
         for (var i = 0; i < agenda.length; i++) {
             agenda_html += '<li><ul><li>' + agenda[i].title + '</li>';
+            agenda_markdown += '## ' + agenda[i].title + "\n";
 
             if (0 !== agenda[i].notes.length) {
                 agenda_html += '<li><ul>';
                 for (var j = 0; j < agenda[i].notes.length; j++) {
                     agenda_html += '<li>' + agenda[i].notes[j].title + '</li>';
+                    agenda_markdown += '  - ' + agenda[i].notes[j].title + "\n";
                 }
                 agenda_html += '</ul></li>';
             }
@@ -136,7 +139,7 @@ var Zap = {
         // see schemas/meeting.json
         return {
             name: meeting.name,
-            description: meeting.description,
+            goal: meeting.description,
             expected_start: meeting.expected_start,
             expected_end: meeting.expected_end,
             real_start: meeting.real_start,
@@ -145,9 +148,10 @@ var Zap = {
             is_recurring: meeting.is_recurring,
             owner: this._getUser(users[meeting.owner]),
             sender: this._getUser(data.sender),
-            participants: participants,
-            agenda: agenda,
+            attendees_names: _.pluck(participants, 'name').join(', '),
+            attendees_emails: _.pluck(participants, 'email').join(', '),
             agenda_html: agenda_html,
+            agenda_markdown: agenda_markdown,
             meeting_url: meeting_url.replace('{hash}', meeting.id)
         };
     },
