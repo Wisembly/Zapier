@@ -128,6 +128,8 @@ var Zap = {
                     agenda_html += '<li>' + agenda[i].notes[j].title + '</li>';
                     agenda_markdown += '  - ' + agenda[i].notes[j].title + "\n";
                 }
+
+                agenda_markdown += "\n";
                 agenda_html += '</ul></li>';
             }
 
