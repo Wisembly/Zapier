@@ -80,6 +80,7 @@ describe('Test Zap code', function () {
             expects(result.assignees_names).to.be('Guillaume Potier, Romain David, Andreï Vestemeanu');
             expects(result.meeting_url).to.be('https://solid.wisembly.com/meetings/Fe29206');
             expects(result.due_meeting_url).to.be('https://solid.wisembly.com/meetings/y4821f2');
+            expects(result.due_meeting_name).to.be('Happy Monday');
         });
 
         it('should handle due_on', function () {
@@ -93,7 +94,13 @@ describe('Test Zap code', function () {
 
         it('should transform users', function () {
             var result = Zap.new_action_item_catch_hook({ cleaned_request: data, request: { headers: [] } });
-            expects(result.sender).to.eql({ name: "Guillaume Potier", email: "guillaume@wisembly.com" })
+            expects(result.sender).to.eql({ name: "Guillaume Potier", email: "guillaume@wisembly.com" });
+        });
+
+        it('should handle assignees_names and assignees_emails', function () {
+            var result = Zap.new_action_item_catch_hook({ cleaned_request: data, request: { headers: [] } });
+            expects(result.assignees_names).to.eql('Guillaume Potier, Romain David, Andreï Vestemeanu');
+            expects(result.assignees_emails).to.eql('guillaume@wisembly.com, romain@wisembly.com, andrei@wisembly.com');
         });
 
         it('should have a shared created and assign meeting hook', function () {
@@ -143,6 +150,12 @@ describe('Test Zap code', function () {
             var result1 = Zap.meeting_stopped_catch_hook({ cleaned_request: data, request: { headers: [] } });
             var result2 = Zap.meeting_started_catch_hook({ cleaned_request: data, request: { headers: [] } });
             expects(result1).to.eql(result2);
+        });
+
+        it('should handle attendees_names and attendees_emails', function () {
+            var result = Zap.meeting_stopped_catch_hook({ cleaned_request: data, request: { headers: [] } });
+            expects(result.attendees_names).to.eql('Guillaume Potier, Meeting Fixture');
+            expects(result.attendees_emails).to.eql('guillaume@wisembly.com, meeting+fixture@wisembly.com');
         });
     });
 });

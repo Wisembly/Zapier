@@ -11,7 +11,7 @@
         "assignees_names": "John Doe",
         "assignees_emails": "john@doe.me",
         "meeting_name": "Meeting name where the task has been created",
-        "due_meeting_name": "Meeting name where the task has bee assigned",
+        "due_meeting_name": "Meeting name where the task has been assigned",
         "meeting_url": "https://solid.wisembly.com/meetings/U86dT6d",
         "due_meeting_url": "https://solid.wisembly.com/meetings/MH6d32f"
     },

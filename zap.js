@@ -76,8 +76,8 @@ var Zap = {
             assignees_emails: _.pluck(assignees, 'email').join(', '),
             meeting_name: null !== current_meeting ? current_meeting.name: null,
             meeting_url: meeting_url.replace('{hash}', current_meeting.id),
-            due_meeting_name: null !== task.due_meeting ? task.due_meeting.name : null,
-            due_meeting_url: task.due_meeting ? meeting_url.replace('{hash}', meetings[task.due_meeting].id) : null
+            due_meeting_name: null !== task.due_meeting ? meetings[task.due_meeting].name : null,
+            due_meeting_url: null !== task.due_meeting ? meeting_url.replace('{hash}', meetings[task.due_meeting].id) : null
         };
     },
 
@@ -102,7 +102,8 @@ var Zap = {
             meeting = data.meeting,
             notes = _.object(_.pluck(data.notes, 'id'), data.notes),
             users = _.object(_.pluck(data.users, 'id'), data.users),
-            participants = _.map(meeting.participants, function (id) { return that._getUser(users[id]); }),
+            participants = _.object(_.pluck(data.participants, 'id'), data.participants),
+            attendees = _.map(meeting.participants, function (id) { return that._getUser(users[participants[id].user]); }),
             meeting_url = this.application_base_url + '/meetings/{hash}';
 
         var agenda = _.map(data.agendas, function (agenda) {
@@ -149,8 +150,8 @@ var Zap = {
             is_recurring: meeting.is_recurring,
             owner: this._getUser(users[meeting.owner]),
             sender: this._getUser(data.sender),
-            attendees_names: _.pluck(participants, 'name').join(', '),
-            attendees_emails: _.pluck(participants, 'email').join(', '),
+            attendees_names: _.pluck(attendees, 'name').join(', '),
+            attendees_emails: _.pluck(attendees, 'email').join(', '),
             agenda_html: agenda_html,
             agenda_markdown: agenda_markdown,
             meeting_url: meeting_url.replace('{hash}', meeting.id)
