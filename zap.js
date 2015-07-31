@@ -1,3 +1,5 @@
+'use strict';
+
 var Zap = {
     header_event_key: 'Http-X-Wisembly-Event',
     application_base_url: 'https://solid.wisembly.com',
@@ -21,7 +23,7 @@ var Zap = {
 
     post_subscribe: function (bundle) {
         // must return a json serializable object for use in pre_unsubscribe
-        data = JSON.parse(bundle.response.content);
+        var data = JSON.parse(bundle.response.content);
 
         // we need this in order to build the {{webhook_id}}
         // in the rest hook unsubscribe url
