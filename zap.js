@@ -121,23 +121,30 @@ var Zap = {
         // @TODO: maybe change html markup, and certainly code it better :(
         var agenda_html = '<ul>';
         var agenda_markdown = '';
+        var agenda_plaintext = '';
+
         for (var i = 0; i < agenda.length; i++) {
             agenda_html += '<li><ul><li>' + agenda[i].title + '</li>';
             agenda_markdown += '## ' + agenda[i].title + "\n";
+            agenda_plaintext += agenda[i].title + "\n";
 
             if (0 !== agenda[i].notes.length) {
                 agenda_html += '<li><ul>';
+
                 for (var j = 0; j < agenda[i].notes.length; j++) {
                     agenda_html += '<li>' + agenda[i].notes[j].title + '</li>';
                     agenda_markdown += '  - ' + agenda[i].notes[j].title + "\n";
+                    agenda_plaintext += '  - ' + agenda[i].notes[j].title + "\n";
                 }
 
                 agenda_markdown += "\n";
+                agenda_plaintext += "\n";
                 agenda_html += '</ul></li>';
             }
 
             agenda_html += '</ul></li>';
         }
+
         agenda_html += '</ul>';
 
         // see schemas/meeting.json
@@ -156,6 +163,7 @@ var Zap = {
             attendees_emails: _.pluck(attendees, 'email').join(', '),
             agenda_html: agenda_html,
             agenda_markdown: agenda_markdown,
+            agenda_plaintext: agenda_plaintext,
             meeting_url: meeting_url.replace('{hash}', meeting.id)
         };
     },
