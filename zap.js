@@ -71,7 +71,7 @@ var Zap = {
         return {
             action_item_name: task.title,
             created_at: task.created_at,
-            due_on: null !== task.due_meeting ? meetings[task.due_meeting].expected_start : task.due_date,
+            due_on: null !== task.due_meeting ? meetings[task.due_meeting].expected_start : moment(task.due_date).format('YYYY-MM-DD'),
             action_item_context: notes[task.note].title,
             sender: this._getUser(data.sender),
             assignees_names: _.pluck(assignees, 'name').join(', '),

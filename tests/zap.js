@@ -1,7 +1,10 @@
 var Zap = require('../zap.js'),
     moment = require('moment'),
     expects = require('expect.js'),
-    underscore = _ = require('underscore');
+    underscore = require('underscore');
+
+global.moment = moment;
+global._ = underscore;
 
 describe('Test Zap code', function () {
     describe('Misc', function () {
@@ -89,7 +92,7 @@ describe('Test Zap code', function () {
             data.task.due_date = '2020-07-13T17:00:00+00:00'
             data.task.due_meeting = null;
             result = Zap.new_action_item_catch_hook({ cleaned_request: data, request: { headers: [] } });
-            expects(result.due_on).to.be(data.task.due_date);
+            expects(result.due_on).to.be('2020-07-13');
         });
 
         it('should transform users', function () {
