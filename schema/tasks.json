@@ -3,7 +3,6 @@
         "action_item_name": "My task to do for a future meeting",
         "created_at": "2016-07-10 16:13:27",
         "due_on": "2017-07-10 16:13:27",
-        "action_item_context": "This note induced the task, it often gives context. It could be a pretty long text though.",
         "sender": {
             "name": "John Doe",
             "email": "john@doe.me"
@@ -20,7 +19,6 @@
         "action_item_name": "My task to do for a specific day (no due meeting)",
         "created_at": "2016-07-10 16:13:27",
         "due_on": "2017-07-10 16:13:27",
-        "action_item_context": "This note induced the task, it often gives context. It could be a pretty long text though.",
         "sender": {
             "name": "John Doe",
             "email": "john@doe.me"

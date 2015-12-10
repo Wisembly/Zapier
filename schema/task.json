@@ -2,7 +2,6 @@
     "action_item_name": "My task to do very soon",
     "created_at": "2016-07-10 16:13:27",
     "due_on": "2017-07-10 16:13:27",
-    "action_item_context": "This note induced the task, it gives context",
     "sender": {
         "name": "John Doe",
         "email": "john@doe.me"
