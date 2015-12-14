@@ -55,24 +55,21 @@ var Zap = {
 
         var that = this,
             data = bundle.cleaned_request,
-            task = data.task,
+            task = data.note,
             current_meeting = null,
             users = _.object(_.pluck(data.users, 'id'), data.users),
-            notes = _.object(_.pluck(data.notes, 'id'), data.notes),
-            agendas = _.object(_.pluck(data.agendas, 'id'), data.agendas),
             meetings = _.object(_.pluck(data.meetings, 'id'), data.meetings),
             meeting_url = this.application_base_url + '/meetings/{hash}',
             assignees = _.map(task.assignees, function (id) { return that._getUser(users[id]); });
 
         // get current meeting through note->item->meeting --'
-        current_meeting = meetings[agendas[notes[task.note].item].meeting];
+        current_meeting = meetings[task.meeting];
 
         // see schemas/task.json
         return {
             action_item_name: task.title,
             created_at: task.created_at,
             due_on: null !== task.due_meeting ? meetings[task.due_meeting].expected_start : moment(task.due_date).format('YYYY-MM-DD'),
-            action_item_context: notes[task.note].title,
             sender: this._getUser(data.sender),
             assignees_names: _.pluck(assignees, 'name').join(', '),
             assignees_emails: _.pluck(assignees, 'email').join(', '),
@@ -102,50 +99,42 @@ var Zap = {
         var that = this,
             data = bundle.cleaned_request,
             meeting = data.meeting,
-            notes = _.object(_.pluck(data.notes, 'id'), data.notes),
+            notes = data.notes,
             users = _.object(_.pluck(data.users, 'id'), data.users),
             participants = _.object(_.pluck(data.participants, 'id'), data.participants),
             attendees = _.map(meeting.participants, function (id) { return that._getUser(users[participants[id].user]); }),
             meeting_url = this.application_base_url + '/meetings/{hash}';
 
-        var agenda = _.map(data.agendas, function (agenda) {
-            agenda = _.pick(agenda, 'title', 'created_at', 'notes');
-            agenda.notes = _.map(agenda.notes, function (id) {
-                return _.pick(notes[id], 'title', 'created_at');
-            });
-
-            return agenda;
-        });
-
         // create a html & markdown version of the agenda
         // @TODO: maybe change html markup, and certainly code it better :(
-        var agenda_html = '<ul>';
+        var agenda_html = '';
         var agenda_markdown = '';
         var agenda_plaintext = '';
 
-        for (var i = 0; i < agenda.length; i++) {
-            agenda_html += '<li><ul><li>' + agenda[i].title + '</li>';
-            agenda_markdown += '## ' + agenda[i].title + "\n";
-            agenda_plaintext += agenda[i].title + "\n";
-
-            if (0 !== agenda[i].notes.length) {
-                agenda_html += '<li><ul>';
-
-                for (var j = 0; j < agenda[i].notes.length; j++) {
-                    agenda_html += '<li>' + agenda[i].notes[j].title + '</li>';
-                    agenda_markdown += '  - ' + agenda[i].notes[j].title + "\n";
-                    agenda_plaintext += '  - ' + agenda[i].notes[j].title + "\n";
-                }
-
-                agenda_markdown += "\n";
-                agenda_plaintext += "\n";
-                agenda_html += '</ul></li>';
+        for (var i = 0; i < notes.length; i++) {
+            switch (notes[i].type) {
+                case "item":
+                    agenda_html += '<h1>' + notes[i].title + '</h1>';
+                    agenda_markdown += '## ' + notes[i].title + "\n";
+                    agenda_plaintext += notes[i].title + "\n";
+                    break;
+                case "section":
+                    agenda_html += '<hr />';
+                    agenda_markdown += "---\n";
+                    agenda_plaintext += "---\n";
+                    break;
+                case "action":
+                    agenda_html += '<p>' + notes[i].title + '</p>';
+                    agenda_markdown += '  - ' + notes[i].title + "\n";
+                    agenda_plaintext += '  - ' + notes[i].title + "\n";
+                    break;
+                default:
+                    agenda_html += '<p>' + notes[i].title + '</p>';
+                    agenda_markdown += '  - ' + notes[i].title + "\n";
+                    agenda_plaintext += '  - ' + notes[i].title + "\n";
+                    break;
             }
-
-            agenda_html += '</ul></li>';
         }
-
-        agenda_html += '</ul>';
 
         // see schemas/meeting.json
         return {
