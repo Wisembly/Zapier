@@ -56,6 +56,7 @@ var Zap = {
         var that = this,
             data = bundle.cleaned_request,
             task = data.note,
+            name = task.title.replace(/<(?:.|\n)*?>/gm, ''), // remove potential simple html tags
             current_meeting = null,
             users = _.object(_.pluck(data.users, 'id'), data.users),
             meetings = _.object(_.pluck(data.meetings, 'id'), data.meetings),
@@ -67,7 +68,7 @@ var Zap = {
 
         // see schemas/task.json
         return {
-            action_item_name: task.title,
+            action_item_name: name,
             created_at: task.created_at,
             due_on: null !== task.due_meeting ? meetings[task.due_meeting].expected_start : moment(task.due_date).format('YYYY-MM-DD'),
             sender: this._getUser(data.sender),
