@@ -56,6 +56,7 @@ var Zap = {
         var that = this,
             data = bundle.cleaned_request,
             task = data.note,
+            name = this._sanitize(task.title), // remove potential simple html tags
             current_meeting = null,
             users = _.object(_.pluck(data.users, 'id'), data.users),
             meetings = _.object(_.pluck(data.meetings, 'id'), data.meetings),
@@ -67,7 +68,7 @@ var Zap = {
 
         // see schemas/task.json
         return {
-            action_item_name: task.title,
+            action_item_name: name,
             created_at: task.created_at,
             due_on: null !== task.due_meeting ? meetings[task.due_meeting].expected_start : moment(task.due_date).format('YYYY-MM-DD'),
             sender: this._getUser(data.sender),
@@ -114,9 +115,9 @@ var Zap = {
         for (var i = 0; i < notes.length; i++) {
             switch (notes[i].type) {
                 case "item":
-                    agenda_html += '<h1>' + notes[i].title + '</h1>';
-                    agenda_markdown += '## ' + notes[i].title + "\n";
-                    agenda_plaintext += notes[i].title + "\n";
+                    agenda_html += '<h1>' + this._normalize(notes[i].title) + '</h1>';
+                    agenda_markdown += '## ' + this._sanitize(notes[i].title) + "\n";
+                    agenda_plaintext += this._sanitize(notes[i].title) + "\n";
                     break;
                 case "section":
                     agenda_html += '<hr />';
@@ -124,14 +125,14 @@ var Zap = {
                     agenda_plaintext += "---\n";
                     break;
                 case "action":
-                    agenda_html += '<p>' + notes[i].title + '</p>';
-                    agenda_markdown += '  - ' + notes[i].title + "\n";
-                    agenda_plaintext += '  - ' + notes[i].title + "\n";
+                    agenda_html += '<p>' + this._normalize(notes[i].title) + '</p>';
+                    agenda_markdown += '  - ' + this._sanitize(notes[i].title) + "\n";
+                    agenda_plaintext += '  - ' + this._sanitize(notes[i].title) + "\n";
                     break;
                 default:
-                    agenda_html += '<p>' + notes[i].title + '</p>';
-                    agenda_markdown += '  - ' + notes[i].title + "\n";
-                    agenda_plaintext += '  - ' + notes[i].title + "\n";
+                    agenda_html += '<p>' + this._normalize(notes[i].title) + '</p>';
+                    agenda_markdown += '  - ' + this._sanitize(notes[i].title) + "\n";
+                    agenda_plaintext += '  - ' + this._sanitize(notes[i].title) + "\n";
                     break;
             }
         }
@@ -163,6 +164,14 @@ var Zap = {
         } catch (error) {
             return {};
         }
+    },
+
+    _normalize: function (text) {
+        return text.replace(/<(.|)div>/gm, "<$1span>");
+    },
+
+    _sanitize: function (text) {
+        return text.replace(/<(?:.|\n)*?>/gm, '');
     }
 };
 
