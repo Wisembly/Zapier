@@ -13,7 +13,8 @@
         { "class_name": "Note", "created_at": "2015-07-10T09:29:12+00:00", "id": "c7cdf29", "position": 10, "title": "<div>Wrap it up and share the summary</div>", "type": "item" },
         { "class_name": "Note", "created_at": "2015-07-10T09:29:12+00:00", "id": "ecd1cda", "position": 11, "title": "<div>The key to successful meetings is to make sure that every one of the meeting's participants gets away with an actionable summary of the meeting.</div>", "type": "note" },
         { "class_name": "Note", "created_at": "2015-07-10T09:29:12+00:00", "id": "G7a59f7", "position": 12, "title": "<div>Once you've ended the meeting, share the summary.</div>", "type": "issue" },
-        { "class_name": "Note", "created_at": "2015-07-10T09:29:12+00:00", "id": "l43b17a", "position": 13, "title": "<div>This is how Solid can be used every time to run your meetings.</div>", "type": "decision" }
+        { "class_name": "Note", "created_at": "2015-07-10T09:29:12+00:00", "id": "l43b17a", "position": 13, "title": "<div>This is how Solid can be used every time to run your meetings.</div>", "type": "decision" },
+        { "class_name": "Note", "created_at": "2015-07-10T09:29:12+00:00", "id": "Ybdc650", "position": 14,"title": "<div>Discover <u>the title</u> note type</div>", "type": "title" }
     ],
     "meeting": {
         "blocked": false,

@@ -114,8 +114,13 @@ var Zap = {
 
         for (var i = 0; i < notes.length; i++) {
             switch (notes[i].type) {
-                case "item":
+                case "title":
                     agenda_html += '<h1>' + this._normalize(notes[i].title) + '</h1>';
+                    agenda_markdown += '# ' + this._sanitize(notes[i].title) + "\n";
+                    agenda_plaintext += this._sanitize(notes[i].title) + "\n";
+                    break;
+                case "item":
+                    agenda_html += '<h2>' + this._normalize(notes[i].title) + '</h2>';
                     agenda_markdown += '## ' + this._sanitize(notes[i].title) + "\n";
                     agenda_plaintext += this._sanitize(notes[i].title) + "\n";
                     break;
